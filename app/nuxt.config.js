@@ -44,6 +44,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
     ['nuxt-fontawesome',{
       imports: [
         {
@@ -60,7 +61,40 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: "http://api.test/api",
+  },
+
+  // Auth Nuxt module
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'meta.token',
+          autoFetch: true,
+        },
+        user: {
+          property: 'data',
+          autoFetch: true,
+        },
+        endpoints: {
+          login: {
+            url: 'login',
+            method: 'post'
+          },
+          user: {
+            url: 'user',
+            method: 'get',
+          },
+          logout: {
+            url: 'logout',
+            method: 'post'
+          },
+        },
+        localStorage: true
+      }
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
