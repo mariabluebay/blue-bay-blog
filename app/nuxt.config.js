@@ -11,7 +11,17 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: "stylesheet",
+        href: "https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css"
+      }
+    ],
+    script: [
+      {
+        src: "https://code.jquery.com/jquery-3.4.1.slim.min.js",
+        type: "text/javascript"
+      },
     ]
   },
 
@@ -34,6 +44,19 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    ['nuxt-fontawesome',{
+      imports: [
+        {
+          set: '@fortawesome/free-solid-svg-icons',
+          icons: ['fas']
+        },
+        {
+          set:'@fortawesome/free-brands-svg-icons',
+          icons: ['fab']
+        }
+      ]
+    }
+    ]
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
