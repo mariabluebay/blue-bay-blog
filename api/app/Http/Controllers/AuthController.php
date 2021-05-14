@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request\User\RegistrationRequest;
-use Illuminate\Http\Resources\User as UserResource;
+use App\Http\Requests\User\RegistrationRequest;
+use App\Http\Resources\User as UserResource;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
