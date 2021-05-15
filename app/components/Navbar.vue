@@ -18,13 +18,13 @@
           Explore
         </nuxt-link>
 
-        <template>
+        <template v-if="authenticated">
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">
               More
             </a>
             <div class="navbar-dropdown">
-              <nuxt-link to="/" class="navbar-item">
+              <nuxt-link to="/profile" class="navbar-item">
                 Profile
               </nuxt-link>
               <nuxt-link to="/posts/create" class="navbar-item">
@@ -43,13 +43,13 @@
         <div class="navbar-item">
           <div class="buttons">
 
-            <template>
+            <template v-if="authenticated">
               <a @click.prevent="logout" class="button is-light">
                 Logout
               </a>
             </template>
 
-            <template>
+            <template v-if="!authenticated">
               <nuxt-link to="/register" class="button is-primary">
                 Sign Up
               </nuxt-link>
