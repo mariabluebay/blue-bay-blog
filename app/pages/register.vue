@@ -90,9 +90,6 @@ export default {
         name: '',
         email: '',
         password: ''
-      },
-      errors: {
-
       }
     }
   },
@@ -107,7 +104,5 @@ export default {
         .catch ( err => console.log( err ) )
     }
   }
-
 }
-
 </script>
