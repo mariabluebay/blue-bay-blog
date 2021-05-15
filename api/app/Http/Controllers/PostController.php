@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Post;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use App\Http\Requests\Post\CreateRequest as CreatePostRequest;
+use App\Http\Resources\Post as PostResource;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
