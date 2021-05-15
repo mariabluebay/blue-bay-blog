@@ -12,6 +12,17 @@ use Illuminate\Support\Str;
 class PostController extends Controller
 {
     /**
+     * Get all posts
+     *
+     * @return mixed
+     */
+    public function index()
+    {
+        $posts = Post::latest()->paginate(5);
+        return PostResource::collection($posts);
+    }
+    
+    /**
      * Create a post
      *
      * @param CreatePostRequest $request
@@ -61,6 +72,4 @@ class PostController extends Controller
 
         return  new PostResource($post);
     }
-
-
 }

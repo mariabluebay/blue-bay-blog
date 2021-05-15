@@ -1,8 +1,11 @@
 <template>
   <div>
     <Navbar />
-    <hr mb-6>
-    <Nuxt/>
+    <div class="p-5">
+      <Nuxt/>
+    </div>
+
+
   </div>
 </template>
 
