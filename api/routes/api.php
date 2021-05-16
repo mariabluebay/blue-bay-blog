@@ -6,6 +6,7 @@ Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login');
 
 Route::get('/posts', 'PostController@index');
+Route::get('/posts/{post}', 'PostController@show');
 Route::get('/user', 'AuthController@user')->middleware('auth:api');
 
 Route::group([

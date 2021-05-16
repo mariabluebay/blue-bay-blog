@@ -22,6 +22,11 @@ class PostController extends Controller
         return PostResource::collection($posts);
     }
 
+    public function show($slug)
+    {
+        $post = Post::where('slug', $slug)->firstOrFail();
+        return  new PostResource($post);
+    }
     /**
      * Create a post
      *
