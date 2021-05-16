@@ -61,9 +61,10 @@ export default {
           icons: ['fab']
         }
       ]
-    }
-    ]
-  ],
+    }],
+    ['@nuxtjs/markdownit', { html: true, injected: true }],
+
+],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

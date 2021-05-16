@@ -1,11 +1,8 @@
 <template>
-  <div>
+  <div class="px-6">
     <Navbar />
-    <div class="p-5">
-      <Nuxt/>
-    </div>
-
-
+    <hr>
+    <Nuxt/>
   </div>
 </template>
 
