@@ -147,7 +147,7 @@ export default {
         body: '',
         active: 0,
         audience: '',
-        featured: Object,
+        featured: '',
         imageName: ''
       },
       headers: {'Content-Type': "multipart/form-data"},

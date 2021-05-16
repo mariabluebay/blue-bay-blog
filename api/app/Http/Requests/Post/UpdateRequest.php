@@ -26,9 +26,9 @@ class UpdateRequest extends FormRequest
         return [
             'excerpt' => 'required|max:255',
             'body' => 'required',
-            'active' => 'required',
+            'active' => 'required|boolean',
             'audience' => 'required',
-            'featured' => 'file'
+            'featured' => 'nullable|image'
         ];
     }
 }
