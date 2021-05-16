@@ -16,5 +16,7 @@ Route::group([
 ], function () {
 
     Route::post('/', 'PostController@store');
+    Route::patch('/{post}', 'PostController@update');
+    Route::delete('/{post}', 'PostController@delete');
 
 });
