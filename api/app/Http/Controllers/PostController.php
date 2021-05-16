@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Post;
 use App\Http\Requests\Post\CreateRequest as CreatePostRequest;
 use App\Http\Requests\Post\UpdateRequest as UpdatePostRequest;
@@ -51,14 +52,7 @@ class PostController extends Controller
         $post->active = $request->active;
 
         //storing the picture
-        if ($request->featured)
-        {
-            $filename = $slug. '-' .$request->featured->getClientOriginalName();
-            $request->featured->storeAs('posts/featured', $filename, 'public');
-            if($request->featured){
-                $post->featured = $filename;
-            }
-        }
+        $post->featured = $this->storeFile($request->featured, $post->slug);
 
         if ($request->active)
         {
@@ -86,14 +80,7 @@ class PostController extends Controller
         $post->body = $request->body;
         $post->active = $request->active;
 
-        if ($request->featured)
-        {
-            $filename = $post->slug. '-' .$request->featured->getClientOriginalName();
-            $request->featured->storeAs('posts/featured', $filename, 'public');
-            if($request->featured){
-                $post->featured = $filename;
-            }
-        }
+        $post->featured = $this->storeFile($request, $post->slug);
 
         if ($request->active)
         {
@@ -115,8 +102,26 @@ class PostController extends Controller
     public function delete(Post $post)
     {
         $this->authorize('delete', $post);
+        Helper::deleteFile($post->featured, 'posts/featured/');
         $post->delete();
         return response(null, 204);
     }
 
+    /**
+     * Handles the featured post image storage
+     *
+     * @param $file
+     * @param $slug
+     * @return string|null
+     */
+    public function storeFile($file, $slug)
+    {
+        $filename = null;
+        if ($file)
+        {
+            $filename = $slug. '-' .$file->getClientOriginalName();
+            $file->storeAs('posts/featured', $filename, 'public');
+        }
+        return $filename;
+    }
 }
