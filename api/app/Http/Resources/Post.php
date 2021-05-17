@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -38,8 +39,7 @@ class Post extends JsonResource
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
             'published_at' => $published_at,
-            'author' => $this->author,
-            //authors => UserResource::collection($this->posts)
+            'author' => new UserResource($this->whenLoaded('author')),
         ];
     }
 }

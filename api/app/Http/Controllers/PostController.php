@@ -19,13 +19,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->paginate(5);
+        $posts = Post::latest()->with('author')->paginate(5);
         return PostResource::collection($posts);
     }
 
     public function show($slug)
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
+        $post = Post::where('slug', $slug)->with('author')->firstOrFail();
         return  new PostResource($post);
     }
     /**
