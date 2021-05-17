@@ -8,6 +8,7 @@ use App\Http\Requests\Post\CreateRequest as CreatePostRequest;
 use App\Http\Requests\Post\UpdateRequest as UpdatePostRequest;
 use App\Http\Resources\Post as PostResource;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -81,13 +82,15 @@ class PostController extends Controller
     {
         $this->authorize('update', $post);
 
-        $post->excerpt = $request->excerpt;
-        $post->body = $request->body;
-        $post->active = $request->active;
+        $post->excerpt = $request->get('excerpt', $post->excerpt);
+        $post->body = $request->get('body', $post->body);
+        $post->active = $request->get('active', $post->active);
+        if($request->featured){
+            $post->featured = $this->storeFile($request->featured, $post->slug);
+        }
 
-        $post->featured = $this->storeFile($request, $post->slug);
 
-        if ($request->active)
+        if ($post->active)
         {
             $post->published_at = now();
         }
