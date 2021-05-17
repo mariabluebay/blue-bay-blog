@@ -73,7 +73,7 @@ export default {
       await this.$auth.loginWith('local', {data: this.form})
         .then( () => {
           this.$router.push({
-            path: this.$route.query.redirect || '/profile'
+            path: this.$route.query.redirect || '/profiles'
           })
         })
         .catch ( err => console.log(err) )

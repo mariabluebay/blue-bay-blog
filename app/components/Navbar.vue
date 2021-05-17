@@ -24,7 +24,8 @@
               More
             </a>
             <div class="navbar-dropdown">
-              <nuxt-link to="/profile" class="navbar-item">
+              <nuxt-link :to="{ name: 'profiles-edit', params: { account: user}}"
+                         class="navbar-item">
                 Profile
               </nuxt-link>
               <nuxt-link to="/posts/create" class="navbar-item">

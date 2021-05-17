@@ -14,7 +14,7 @@
         <div class="card-image">
           <figure v-if="post.featured"
                   class="image is-4by3">
-            <img :src="imageHost + post.featured"
+            <img :src="post.featured"
                  alt="post.title"
                  class="is-cover">
           </figure>
@@ -24,7 +24,7 @@
             <div v-if="post.author.avatar"
                  class="media-left">
               <figure class="image is-48x48">
-                <img :src="imageHost + post.author.avatar"
+                <img :src="post.author.avatar"
                      :alt="post.author.username"
                       class="is-cover">
               </figure>

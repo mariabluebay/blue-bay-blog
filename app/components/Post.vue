@@ -5,19 +5,12 @@
       <div class="media">
         <div v-if="post.featured" class="media-left">
           <figure class="image is-200x200">
-            <img :alt="post.title" :src="imageHost + post.featured" class="is-cover">
+            <img :alt="post.title" :src="post.featured" class="is-cover">
           </figure>
         </div>
         <div class="media-content">
-          <p class="title is-4">{{ post.title }}</p>
-          <div class="subtitle is-spaced is-6 is-flex is-flex-direction-row is-justify-content-space-between">
-            <div>@{{ author.username  }}</div>
-            <div>
-              <time :datetime="post.published_at">
-                {{ post.published_at }}
-              </time>
-            </div>
-          </div>
+          <h4 class="small-post-title">{{ post.title }}</h4>
+          <PostHeader :author="post.author" :time="post.published_at"/>
           <div class="content post-body">
             {{ post.excerpt }}
           </div>
@@ -31,11 +24,18 @@
 
 <script>
   import PostFooter from "./PostFooter";
+  import PostHeader from "./PostHeader";
   export default {
-    components: { PostFooter },
+    components: {PostHeader, PostFooter },
     props: [
       'post',
       'author'
-    ]
+    ],
+    methods: {
+      async deletePost(id) {
+        await this.$axios.delete(`/posts/${id}`)
+          .then(() => this.$router.push('/posts'));
+      }
+    }
   }
 </script>
