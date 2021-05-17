@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Http\Resources\Post as PostResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class User extends JsonResource
 {
@@ -16,14 +17,14 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-        $avatar = '/images/avatar.svg';
+        $avatar = URL::to('/') . '/images/avatar.svg';
         if( !is_null( $this->avatar ) && !empty( $this->avatar ) ){
-            $avatar = Storage::url('profiles/'. $this->username.'/' . $this->avatar);
+            $avatar = URL::to('/') . Storage::url('profiles/'. $this->username.'/' . $this->avatar);
         }
 
-        $cover = '/images/cover.jpg';
+        $cover = URL::to('/') . '/images/cover.jpg';
         if( !is_null( $this->cover ) && !empty( $this->cover ) ){
-            $cover = Storage::url('profiles/' .$this->username.'/' . $this->cover);
+            $cover = URL::to('/') . Storage::url('profiles/' .$this->username.'/' . $this->cover);
         }
 
         return [

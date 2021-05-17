@@ -13,4 +13,5 @@ class ProfileController extends Controller
         $user = User::where('username', $username)->with('posts')->firstOrFail();
         return new UserResource($user->loadMissing(['posts']));
     }
+
 }
