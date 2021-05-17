@@ -11,7 +11,7 @@
         <div class="media-content">
           <p class="title is-4">{{ post.title }}</p>
           <div class="subtitle is-spaced is-6 is-flex is-flex-direction-row is-justify-content-space-between">
-            <div>@{{ post.author.username }}</div>
+            <div>@{{ author.username  }}</div>
             <div>
               <time :datetime="post.published_at">
                 {{ post.published_at }}
@@ -25,14 +25,17 @@
       </div>
     </div>
 
-    <PostFooter :post="post"/>
+    <PostFooter :post="post" :author="author"/>
   </div>
 </template>
 
 <script>
   import PostFooter from "./PostFooter";
   export default {
-    components: {PostFooter},
-    props: ['post']
+    components: { PostFooter },
+    props: [
+      'post',
+      'author'
+    ]
   }
 </script>

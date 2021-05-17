@@ -13,7 +13,7 @@
                v-if="index > 0"
                :key="index"
                class="tile is-child block">
-        <Post :post="post"/>
+        <Post :post="post" :author="post.author"/>
       </article>
     </div>
   </div>
@@ -24,7 +24,7 @@
   import MainPost from "../../components/MainPost";
 
   export default {
-    components: {MainPost, Post},
+    components: { MainPost, Post },
 
     data() {
       return {

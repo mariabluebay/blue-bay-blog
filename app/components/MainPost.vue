@@ -23,7 +23,7 @@
       </nuxt-link>
     </figure>
     <div class="content has-border main-post-body p-4" v-html="post.body"></div>
-    <PostFooter :post="post"/>
+    <PostFooter :post="post" :author="post.author"/>
   </article>
 </template>
 

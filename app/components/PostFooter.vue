@@ -1,6 +1,6 @@
 <template>
   <footer
-    v-if="authenticated && (user.id === post.author.id  || user.role === 'admin' )"
+    v-if="authenticated && (user.id === author.id  || user.role === 'admin' )"
     class="card-footer has-background-black">
     <nuxt-link :to="'/posts/' + post.slug"
                class="card-footer-item has-text-white has-text-weight-bold	">
@@ -24,6 +24,9 @@
 
 <script>
   export default {
-    props: ['post']
+    props: [
+      'post',
+      'author'
+    ]
   }
 </script>
