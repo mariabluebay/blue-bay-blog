@@ -100,7 +100,7 @@ export default {
         .then ( () => {
           //returns the profile or the intended page
           this.$router.push({
-            path: this.$route.query.redirect || '/profile'
+            path: this.$route.query.redirect || '/profiles'
           })
         })
         .catch ( err => console.log( err ) )
