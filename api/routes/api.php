@@ -24,4 +24,5 @@ Route::group([
     Route::get('/profiles/{user:username}', 'ProfileController@show');
 
     Route::post('/profiles/{user:username}/follow', 'FollowsController@store');
+    Route::post('/profiles/{user:username}/block', 'FollowsController@block');
 });

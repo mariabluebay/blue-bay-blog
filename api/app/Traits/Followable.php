@@ -99,7 +99,7 @@ trait Followable {
      * friendship that his user started but now blocked
      */
     protected function blocked_users(){
-        return $this->belongsToMany(\App\Models\User::class, 'follows', 'user_id', 'following_user_id')
+        return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')
             ->withPivot('status')
             ->wherePivot('status', 'blocked');
     }
@@ -116,9 +116,9 @@ trait Followable {
     protected function getBlockedUserAttribute()
     {
         if( $temp = $this->blocked_users )
-            return $temp->merge($this->blocked_friendship_requests);
+            return $temp->merge($this->blocked_friendship_requests)->pluck('username');
         else
-            return $this->blocked_friendship_requests;
+            return $this->blocked_friendship_requests->pluck('username');
     }
 
     protected function friend_request_received()

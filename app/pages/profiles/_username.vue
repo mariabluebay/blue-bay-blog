@@ -65,6 +65,13 @@ import FollowButton from "../../components/FollowButton";
 export default {
   components: { FollowButton },
 
+  middleware({ store, redirect, params }) {
+    let blockedUsers = store.state.auth.user.blocked_users;
+    if (blockedUsers.includes(params.username)) {
+      return redirect(404)
+    }
+  },
+
   async asyncData({$axios, params}) {
     const {data} = await $axios.$get(`/profiles/${params.username}`);
     return {account : data}

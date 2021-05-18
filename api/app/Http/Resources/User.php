@@ -46,6 +46,7 @@ class User extends JsonResource
             'friends' => $this->friends->toArray(),
             'pending_friend_request' => $this->friend_request_received->toArray(),
             'posts_count' => $this->posts_count,
+            'blocked_users' => $this->blockedUser
         ];
     }
 }
