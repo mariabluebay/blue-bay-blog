@@ -19,17 +19,18 @@ class User extends JsonResource
     {
         $avatar = URL::to('/') . '/images/avatar.svg';
         if( !is_null( $this->avatar ) && !empty( $this->avatar ) ){
-            $avatar = URL::to('/') . Storage::url('profiles/'. $this->username.'/' . $this->avatar);
+            $avatar = URL::to('/') . Storage::url('profiles/'. $this->username.'/avatar/' . $this->avatar);
         }
 
         $cover = URL::to('/') . '/images/cover.jpg';
         if( !is_null( $this->cover ) && !empty( $this->cover ) ){
-            $cover = URL::to('/') . Storage::url('profiles/' .$this->username.'/' . $this->cover);
+            $cover = URL::to('/') . Storage::url('profiles/' .$this->username.'/cover/' . $this->cover);
         }
 
         return [
-            //'id' => $this->id,
             'username' => $this->username,
+            'name' => $this->name,
+            'about' => $this->about,
             'email' => $this->email,
             'role' => $this->role,
             'created_at' => $this->created_at,
@@ -40,6 +41,7 @@ class User extends JsonResource
             'avatar' => $avatar,
             'cover' => $cover,
             'posts' => PostResource::collection($this->whenLoaded('posts')),
+            'posts_count' => $this->posts_count,
         ];
     }
 }
