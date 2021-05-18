@@ -11,17 +11,19 @@
         <div class="columns is-mobile is-centered">
           <div class="column is-half p-6 box">
             <form autocomplete="off" @submit.prevent="edit">
+
               <h3 class="title is-4 is-spaced bd-anchor-title has-text-centered	">
                 <span>
                   Edit Profile
                 </span>
               </h3>
+
               <div class="field ">
                 <div class="file has-name is-fullwidth">
                   <label class="file-label">
                     <input
                       ref="cover"
-                      :class="{'is-danger':errors.cover , 'is-success': true}"
+                      :class="{'is-danger':errors.cover , 'is-primary': true}"
                       class="file-input"
                       name="cover"
                       type="file"
@@ -44,8 +46,8 @@
 
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
-                  <input v-model.trim="account.name"
-                         :class="{'is-danger':errors.name , 'is-success': true}"
+                  <input v-model="account.name"
+                         :class="{'is-danger':errors.name , 'is-primary': true}"
                          autofocus
                          class="input"
                          name="name"
@@ -61,10 +63,25 @@
                 </p>
                 <p v-if="errors.name" class="help is-danger">{{ errors.name[0] }}</p>
               </div>
+
+              <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                  <textarea v-model="account.about"
+                         :class="{'is-danger':errors.about , 'is-primary': true}"
+                         autofocus
+                         class="input"
+                         name="about"
+                         placeholder="About"
+                         required
+                         type="text"/>
+                </p>
+                <p v-if="errors.about" class="help is-danger">{{ errors.about[0] }}</p>
+              </div>
+
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
                   <input v-model.trim="account.username"
-                         :class="{'is-danger':errors.username , 'is-success': true}"
+                         :class="{'is-danger':errors.username , 'is-primary': true}"
                          autofocus
                          class="input"
                          name="username"
@@ -72,11 +89,11 @@
                          required
                          type="text">
                   <span class="icon is-small is-left">
-              <font-awesome-icon :icon="['fas', 'user']"/>
-            </span>
+                      <font-awesome-icon :icon="['fas', 'user']"/>
+                  </span>
                   <span v-if="errors.username" class="icon is-small is-right">
-              <font-awesome-icon :icon="['fas', 'exclamation-triangle']"/>
-            </span>
+                    <font-awesome-icon :icon="['fas', 'exclamation-triangle']"/>
+                  </span>
                 </p>
                 <p v-if="errors.username" class="help is-danger">{{ errors.username[0] }}</p>
               </div>
@@ -95,7 +112,7 @@
                   <label class="file-label">
                     <input
                       ref="avatar"
-                      :class="{'is-danger':errors.avatar , 'is-success': true}"
+                      :class="{'is-danger':errors.avatar , 'is-primary': true}"
                       class="file-input"
                       name="avatar"
                       type="file"
@@ -115,21 +132,22 @@
                   <p v-if="errors.avatar" class="help is-danger">{{ errors.avatar[0] }}</p>
                 </div>
               </div>
+
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
                   <input v-model.trim="account.email"
-                         :class="{'is-danger':errors.email , 'is-success': true}"
+                         :class="{'is-danger':errors.email , 'is-primary': true}"
                          class="input"
                          name="email"
                          placeholder="Email"
                          required
                          type="email">
                   <span class="icon is-small is-left">
-              <font-awesome-icon :icon="['fas', 'envelope']"/>
-            </span>
-                  <span v-if="errors.email" class="icon is-small is-right">
-              <font-awesome-icon :icon="['fas', 'exclamation-triangle']"/>
-            </span>
+                <font-awesome-icon :icon="['fas', 'envelope']"/>
+                  </span>
+                        <span v-if="errors.email" class="icon is-small is-right">
+                    <font-awesome-icon :icon="['fas', 'exclamation-triangle']"/>
+                  </span>
                 </p>
                 <p v-if="errors.email" class="help is-danger">{{ errors.email[0] }}</p>
               </div>
@@ -137,7 +155,7 @@
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
                   <input v-model.trim="account.password"
-                         :class="{'is-danger':errors.password , 'is-success': true}"
+                         :class="{'is-danger':errors.password , 'is-primary': true}"
                          class="input"
                          name="password"
                          placeholder="Password"
@@ -177,18 +195,30 @@
          avatarPicName: '',
          coverPicName: '',
          avatarSrc: '',
-         coverSrc: ''
+         coverSrc: '',
+         account: {
+           username: '',
+           name: '',
+           about: '',
+           cover: '',
+           avatar: '',
+           email: '',
+           password: ''
+         },
+         headers: [['Content-Type' , "multipart/form-data"]],
        }
     },
 
     async asyncData({$content, $axios, params}) {
-      const {data} = await $axios.$get(`/profiles/${params.account.username}`);
+      const {data} = await $axios.$get(`/profiles/${params.username}`);
       return {account : data}
     },
+
     created () {
       this.coverSrc =  this.account.cover;
       this.avatarSrc =  this.account.avatar;
     },
+
     methods: {
       previewCover() {
         this.account.cover = this.$refs.cover.files[0];
@@ -199,6 +229,7 @@
           this.coverSrc = e.target.result;
         }
       },
+
       previewAvatar() {
         this.account.avatar = this.$refs.avatar.files[0];
         this.avatarPicName = this.$refs.avatar.files[0].name;
@@ -210,14 +241,33 @@
       },
 
       async edit() {
-        await this.$axios.$post('edit', this.account)
-          .then(() => {
-            this.$router.push({
-              path: this.$route.query.redirect || '/profiles'
-            })
-          })
-          .catch(err => console.log(err))
+        let formData = new FormData();
+        formData.append('name', this.account.name);
+        formData.append('username', this.account.username);
+        formData.append('about', this.account.about);
+        formData.append('email', this.account.email);
+        formData.append('password', this.account.password);
+
+        if(this.avatarPicName) {
+          formData.append('avatar', this.account.avatar);
+        } else{
+          formData.append('avatar', '');
+        }
+
+        if(this.coverPicName) {
+          formData.append('cover', this.account.cover);
+        } else{
+          formData.append('cover', '');
+        }
+
+        formData.append('headers', this.headers);
+        formData.append('_method', 'patch');
+
+        this.$axios.post(`/profiles/${this.account.username}`, formData,  this.headers ).then(() => {
+          this.$router.push({path: `/profiles/${this.post.username}`});
+        }).catch(err => console.log(err))
       }
+
     }
   }
 </script>
