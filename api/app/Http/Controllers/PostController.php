@@ -85,10 +85,10 @@ class PostController extends Controller
         $post->excerpt = $request->get('excerpt', $post->excerpt);
         $post->body = $request->get('body', $post->body);
         $post->active = $request->get('active', $post->active);
+
         if($request->featured){
             $post->featured = $this->storeFile($request->featured, $post->slug);
         }
-
 
         if ($post->active)
         {

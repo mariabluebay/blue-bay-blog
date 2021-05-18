@@ -67,13 +67,13 @@
               <div class="field">
                 <p class="control has-icons-left has-icons-right">
                   <textarea v-model="account.about"
-                         :class="{'is-danger':errors.about , 'is-primary': true}"
-                         autofocus
-                         class="input"
-                         name="about"
-                         placeholder="About"
-                         required
-                         type="text"/>
+                            :class="{'is-danger':errors.about , 'is-primary': true}"
+                            autofocus
+                            class="input"
+                            name="about"
+                            placeholder="About"
+                            required
+                            type="text"/>
                 </p>
                 <p v-if="errors.about" class="help is-danger">{{ errors.about[0] }}</p>
               </div>
@@ -101,11 +101,11 @@
               <div class="field">
                 <div class="file is-flex is-centered">
                   <figure class="image is-200x200 mb-2">
-                  <img
-                    :src="avatarSrc"
-                    alt="Your profile picture"
-                    class="rounded-full border-solid border-white border-2 w-12 h-12 object-cover"
-                    id="profilePicture"/>
+                    <img
+                      :src="avatarSrc"
+                      alt="Your profile picture"
+                      class="rounded-full border-solid border-white border-2 w-12 h-12 object-cover"
+                      id="profilePicture"/>
                   </figure>
                 </div>
                 <div class="file has-name is-fullwidth">
@@ -145,7 +145,7 @@
                   <span class="icon is-small is-left">
                 <font-awesome-icon :icon="['fas', 'envelope']"/>
                   </span>
-                        <span v-if="errors.email" class="icon is-small is-right">
+                  <span v-if="errors.email" class="icon is-small is-right">
                     <font-awesome-icon :icon="['fas', 'exclamation-triangle']"/>
                   </span>
                 </p>
@@ -189,85 +189,86 @@
 </template>
 
 <script>
-  export default {
-    data () {
-       return {
-         avatarPicName: '',
-         coverPicName: '',
-         avatarSrc: '',
-         coverSrc: '',
-         account: {
-           username: '',
-           name: '',
-           about: '',
-           cover: '',
-           avatar: '',
-           email: '',
-           password: ''
-         },
-         headers: [['Content-Type' , "multipart/form-data"]],
-       }
-    },
+export default {
 
-    async asyncData({$content, $axios, params}) {
-      const {data} = await $axios.$get(`/profiles/${params.username}`);
-      return {account : data}
-    },
-
-    created () {
-      this.coverSrc =  this.account.cover;
-      this.avatarSrc =  this.account.avatar;
-    },
-
-    methods: {
-      previewCover() {
-        this.account.cover = this.$refs.cover.files[0];
-        this.coverPicName  = this.$refs.cover.files[0].name;
-        let reader = new FileReader();
-        reader.readAsDataURL(this.account.cover);
-        reader.onload =  e => {
-          this.coverSrc = e.target.result;
-        }
+  data () {
+    return {
+      avatarPicName: '',
+      coverPicName: '',
+      avatarSrc: '',
+      coverSrc: '',
+      account: {
+        username: '',
+        name: '',
+        about: '',
+        cover: '',
+        avatar: '',
+        email: '',
+        password: ''
       },
+      headers: [['Content-Type' , "multipart/form-data"]],
+    }
+  },
 
-      previewAvatar() {
-        this.account.avatar = this.$refs.avatar.files[0];
-        this.avatarPicName = this.$refs.avatar.files[0].name;
-        let reader = new FileReader();
-        reader.readAsDataURL(this.account.avatar);
-        reader.onload =  e => {
-          this.avatarSrc = e.target.result;
-        }
-      },
+  async asyncData({$axios, store}) {
+    const {data} = await $axios.$get(`/profiles/${store.state.auth.user.username}`);
+    return {account : data}
+  },
 
-      async edit() {
-        let formData = new FormData();
-        formData.append('name', this.account.name);
-        formData.append('username', this.account.username);
-        formData.append('about', this.account.about);
-        formData.append('email', this.account.email);
-        formData.append('password', this.account.password);
+  created () {
+    this.coverSrc =  this.account.cover;
+    this.avatarSrc =  this.account.avatar;
+  },
 
-        if(this.avatarPicName) {
-          formData.append('avatar', this.account.avatar);
-        } else{
-          formData.append('avatar', '');
-        }
+  methods: {
+    previewCover() {
+      this.account.cover = this.$refs.cover.files[0];
+      this.coverPicName  = this.$refs.cover.files[0].name;
+      let reader = new FileReader();
+      reader.readAsDataURL(this.account.cover);
+      reader.onload =  e => {
+        this.coverSrc = e.target.result;
+      }
+    },
 
-        if(this.coverPicName) {
-          formData.append('cover', this.account.cover);
-        } else{
-          formData.append('cover', '');
-        }
+    previewAvatar() {
+      this.account.avatar = this.$refs.avatar.files[0];
+      this.avatarPicName = this.$refs.avatar.files[0].name;
+      let reader = new FileReader();
+      reader.readAsDataURL(this.account.avatar);
+      reader.onload =  e => {
+        this.avatarSrc = e.target.result;
+      }
+    },
 
-        formData.append('headers', this.headers);
-        formData.append('_method', 'patch');
+    async edit() {
+      let formData = new FormData();
+      formData.append('name', this.account.name);
+      formData.append('username', this.account.username);
+      formData.append('about', this.account.about);
+      formData.append('email', this.account.email);
+      formData.append('password', this.account.password);
 
-        this.$axios.post(`/profiles/${this.account.username}`, formData,  this.headers ).then(() => {
-          this.$router.push({path: `/profiles/${this.post.username}`});
-        }).catch(err => console.log(err))
+      if(this.avatarPicName) {
+        formData.append('avatar', this.account.avatar);
+      } else{
+        formData.append('avatar', '');
       }
 
+      if(this.coverPicName) {
+        formData.append('cover', this.account.cover);
+      } else{
+        formData.append('cover', '');
+      }
+
+      formData.append('headers', this.headers);
+      formData.append('_method', 'patch');
+
+      this.$axios.post(`/profiles`, formData,  this.headers ).then(() => {
+        this.$router.push({path: `/profiles/${this.post.username}`});
+      }).catch(err => console.log(err))
     }
+
   }
+}
 </script>
