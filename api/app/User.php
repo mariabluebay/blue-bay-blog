@@ -72,4 +72,9 @@ class User extends Authenticatable implements JWTSubject
                     ->latest();
     }
 
+    public function getPostsCountAttribute()
+    {
+        return $this->posts()->count();
+    }
+
 }

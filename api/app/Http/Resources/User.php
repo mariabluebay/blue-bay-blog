@@ -18,11 +18,12 @@ class User extends JsonResource
     public function toArray($request)
     {
         $avatar = URL::to('/') . '/images/avatar.svg';
+        $cover = URL::to('/') . '/images/cover.jpg';
+
         if( !is_null( $this->avatar ) && !empty( $this->avatar ) ){
             $avatar = URL::to('/') . Storage::url('profiles/'. $this->username.'/avatar/' . $this->avatar);
         }
 
-        $cover = URL::to('/') . '/images/cover.jpg';
         if( !is_null( $this->cover ) && !empty( $this->cover ) ){
             $cover = URL::to('/') . Storage::url('profiles/' .$this->username.'/cover/' . $this->cover);
         }

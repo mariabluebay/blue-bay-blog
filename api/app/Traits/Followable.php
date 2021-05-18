@@ -7,8 +7,6 @@ trait Followable {
 
     public function follow(User $user)
     {
-        $user->notify(new YouWereFollowed(current_user()));
-
         return $this->follows()->save($user);
     }
 
@@ -27,18 +25,20 @@ trait Followable {
     public function following($user)
     {
         return (bool) $this->follows()
-            ->where('following_user_id', $user instanceof User ? $user->id : $user)
-            ->exists();
+                            ->where('following_user_id', $user instanceof User ? $user->id : $user)
+                            ->exists();
     }
 
     public function follows()
     {
-        return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')
+                    ->withTimestamps();
     }
 
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'user_id')
+                    ->withTimestamps();
     }
 
     public function getFollowsCountAttribute()
@@ -54,8 +54,12 @@ trait Followable {
 
     public function getIsFollowedAttribute()
     {
-        return (bool)$this->followers()
+        $res = (bool)$this->followers()
             ->where('user_id', auth()->id())
             ->exists();
+        if(!$res){
+            $res = auth()->user()->following($this);
+        }
+        return $res;
     }
 }

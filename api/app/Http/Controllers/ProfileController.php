@@ -12,7 +12,7 @@ class ProfileController extends Controller
     public function show($username)
     {
         $user = User::where('username', $username)->with('posts')->firstOrFail();
-        return new UserResource($user->loadMissing(['posts']));
+        return new UserResource( $user->loadMissing(['posts']));
     }
 
     public function update(EditProfileRequest $request)

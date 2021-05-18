@@ -22,4 +22,6 @@ Route::group([
 
     Route::patch('/profiles','ProfileController@update');
     Route::get('/profiles/{user:username}', 'ProfileController@show');
+
+    Route::post('/profiles/{user:username}/follow', 'FollowsController@store');
 });
