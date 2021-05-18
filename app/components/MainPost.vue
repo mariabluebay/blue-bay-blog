@@ -24,6 +24,7 @@
   import PostHeader from "./PostHeader";
 
   export default {
+    name: "MainPost",
     components: {
       PostHeader,
       PostFooter

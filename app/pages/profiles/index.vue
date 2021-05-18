@@ -35,21 +35,20 @@
     </div>
     <div>
       <div> Joined {{ account.created_at }}</div>
-      <div>
-        <!-- follow button -->
-      </div>
+      <PendingRequest :requests="account.pending_friend_request"/>
     </div>
     <hr class="block py-4 mt-4">
   </div>
 </template>
 <script>
-export default {
-  middleware: ['auth'],
+import PendingRequest from "../../components/PendingRequest";
 
+export default {
+  components: { PendingRequest },
+  middleware: ['auth'],
   async asyncData({$axios, store}) {
     const {data} = await $axios.$get(`/profiles/${store.state.auth.user.username}`);
     return {account : data}
   },
-
 }
 </script>
