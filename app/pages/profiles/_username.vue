@@ -45,7 +45,7 @@
 <script>
 export default {
 
-  async asyncData({$content, $axios, params}) {
+  async asyncData({$axios, params}) {
     const {data} = await $axios.$get(`/profiles/${params.username}`);
     return {account : data}
   },
