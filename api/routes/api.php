@@ -10,7 +10,7 @@ Route::get('/posts/{post}', 'PostController@show');
 
 
 Route::group([
-    'middleware' => 'auth:api',
+    'middleware' => ['auth:api','cors'],
 ], function () {
     Route::post('/logout', 'AuthController@logout');
 
@@ -20,6 +20,6 @@ Route::group([
     Route::patch('/posts/{post}', 'PostController@update');
     Route::delete('/posts/{post}', 'PostController@delete');
 
-    Route::get('/profiles/{user}', 'ProfileController@show');
-
+    Route::patch('/profiles','ProfileController@update');
+    Route::get('/profiles/{user:username}', 'ProfileController@show');
 });

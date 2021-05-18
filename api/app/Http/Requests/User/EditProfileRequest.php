@@ -24,11 +24,11 @@ class EditProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|min:3|max:50|unique:users,username,'.$this->user->id,
+            'username' => 'required|min:3|max:50|unique:users,username,'.auth()->id(),
             'name' => 'string|required|max:255',
             'avatar' => 'nullable|file',
             'cover' => 'nullable|file',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$this->user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.auth()->id(),
             'password' => 'password|required|min:8|max:255'
         ];
     }

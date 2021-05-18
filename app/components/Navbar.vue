@@ -24,11 +24,11 @@
               More
             </a>
             <div class="navbar-dropdown">
-              <nuxt-link :to="'/profiles/' + user.username"
+              <nuxt-link to="/profiles"
                          class="navbar-item">
                 View Profile
               </nuxt-link>
-              <nuxt-link :to="'/profiles/edit/' + user.username"
+              <nuxt-link to="/profiles/edit"
                          class="navbar-item">
                 Edit Profile
               </nuxt-link>

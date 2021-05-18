@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResource;
 use App\Http\Requests\User\EditProfileRequest;
+
 
 class ProfileController extends Controller
 {
@@ -15,10 +15,9 @@ class ProfileController extends Controller
         return new UserResource($user->loadMissing(['posts']));
     }
 
-    public function update(EditProfileRequest $request, User $user)
+    public function update(EditProfileRequest $request)
     {
-
-        $this->authorize('update', $user);
+        $user = User::findorFail(auth()->id());
 
         $user->username = $request->get('username', $user->username);
         $user->name = $request->get('name', $user->name);
