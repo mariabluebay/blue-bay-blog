@@ -62,4 +62,69 @@ trait Followable {
         }
         return $res;
     }
+
+    /**
+     * friendship request sent by this user
+     */
+    protected function friendsOfThisUser()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'confirmed');
+    }
+    /**
+     * frienship requests received by this user
+     */
+    protected function thisUserFriendOf()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'user_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'confirmed');
+    }
+
+    /**
+     * confirmed friend requests
+     *
+     * @return mixed
+     */
+    public function getFriendsAttribute()
+    {
+        if($temp = $this->friendsOfThisUser)
+            return $temp->merge($this->thisUserFriendOf);
+        else
+            return $this->thisUserFriendOf;
+    }
+
+    /***
+     * friendship that his user started but now blocked
+     */
+    protected function blocked_users(){
+        return $this->belongsToMany(\App\Models\User::class, 'follows', 'user_id', 'following_user_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'blocked');
+    }
+
+    /***
+     * friendship that his user started but now blocked
+     */
+    protected function blocked_friendship_requests(){
+        return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'user_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'blocked');
+    }
+
+    protected function getBlockedUserAttribute()
+    {
+        if( $temp = $this->blocked_users )
+            return $temp->merge($this->blocked_friendship_requests);
+        else
+            return $this->blocked_friendship_requests;
+    }
+
+    protected function friend_request_received()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'user_id')
+        ->withPivot('status')
+        ->wherePivot('status', 'pending');
+    }
 }

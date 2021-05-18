@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\Post as PostResource;
+use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -42,6 +43,8 @@ class User extends JsonResource
             'avatar' => $avatar,
             'cover' => $cover,
             'posts' => PostResource::collection($this->whenLoaded('posts')),
+            'friends' => $this->friends->toArray(),
+            'pending_friend_request' => $this->friend_request_received->toArray(),
             'posts_count' => $this->posts_count,
         ];
     }
