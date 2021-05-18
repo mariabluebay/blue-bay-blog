@@ -44,6 +44,7 @@
 </template>
 <script>
 export default {
+  middleware: ['auth'],
 
   async asyncData({$axios, store}) {
     const {data} = await $axios.$get(`/profiles/${store.state.auth.user.username}`);
