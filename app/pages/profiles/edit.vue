@@ -265,9 +265,11 @@ export default {
       formData.append('headers', this.headers);
       formData.append('_method', 'patch');
 
-      this.$axios.post(`/profiles`, formData,  this.headers ).then(() => {
-        this.$router.push({path: `/profiles/${this.post.username}`});
-      }).catch(err => console.log(err))
+      this.$axios.post(`/profiles`, formData,  this.headers )
+        .then(() => {
+          this.$router.push({path: `/profiles/${this.post.username}`});
+        })
+        .catch(err => console.log(err))
     }
 
   }

@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <img
       :alt="account.name"
       :src="account.cover"
@@ -13,6 +14,7 @@
     </div>
     <div >
       <h3 >{{ account.name }}</h3>
+      <FollowButton :account="account"/>
       <div >
         <div>
           <h2>{{ account.posts_count }}</h2>
@@ -35,15 +37,16 @@
     </div>
     <div>
       <div> Joined {{ account.created_at }}</div>
-      <div>
-        <!-- follow button -->
-      </div>
+
     </div>
     <hr class="block py-4 mt-4">
   </div>
 </template>
 <script>
+import FollowButton from "../../components/FollowButton";
+
 export default {
+  components: { FollowButton },
 
   async asyncData({$axios, params}) {
     const {data} = await $axios.$get(`/profiles/${params.username}`);
