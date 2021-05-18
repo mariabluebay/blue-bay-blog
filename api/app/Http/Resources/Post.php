@@ -6,6 +6,7 @@ use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class Post extends JsonResource
 {
@@ -25,7 +26,7 @@ class Post extends JsonResource
         }
 
         if(!is_null($this->featured) && !empty( $this->featured )){
-            $imageUrl = Storage::url('posts/featured/' . $this->featured);
+            $imageUrl = URL::to('/') . Storage::url('posts/featured/' . $this->featured);
         }
 
         return [
