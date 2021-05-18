@@ -1,44 +1,63 @@
 <template>
   <div>
-    <img
-      :alt="account.name"
-      :src="account.cover"
-      class="w-full"/>
-    <div>
-      <img :alt="account.name"
-           :src="account.avatar"
-           class=""
-           width="150px"
-      />
-    </div>
-    <div >
-      <h3 >{{ account.name }}</h3>
-      <div >
-        <div>
-          <h2>{{ account.posts_count }}</h2>
-          <span>Posts</span>
+    <div class="columns is-mobile is-centered">
+      <div class="column is-half">
+
+        <div class="card">
+
+          <div class="card-image">
+            <figure class="image is-2by1">
+              <img :src="user.cover"
+                   alt="Profile Cover"
+                   class="is-cover">
+            </figure>
+          </div>
+
+          <div class="file is-flex is-centered profile-card-avatar">
+            <figure class="image is-200x200">
+              <img
+                :src="user.avatar"
+                :alt="user.username"
+                class=" is-rounded rounded-full border-solid border-white border-2 w-12 h-12 object-cover"
+                id="profilePicture"/>
+            </figure>
+          </div>
+
+          <div class="card-content">
+
+            <h3 class="title is-2 is-spaced bd-anchor-title has-text-centered">
+                <span class="is-upper">
+                 {{ user.name ? user.name : user.username }}
+                </span>
+            </h3>
+            <h4 class="subtitle is-4 has-text-centered has-text-grey">
+              {{ user.about ?  user.about : 'No tagline yet.'}}
+            </h4>
+          </div>
+
+          <footer class="card-footer no-top-margin no-left-margin">
+            <div class="card-footer-item has-text-centered is-flex-direction-column">
+              <h5> {{ user.followers_count + user.follows_count }} </h5>
+              <p>  Friends </p>
+            </div>
+            <div class="card-footer-item is-flex-direction-column">
+              <h5> {{ user.posts_count }} </h5>
+              <p> Posts </p>
+            </div>
+            <div class="card-footer-item is-flex-direction-column">
+              <h5> {{ user.comments_count }} </h5>
+              <p> Comments </p>
+            </div>
+
+          </footer>
+          <br>
+
         </div>
-        <div >
-          <h2>{{ account.followers_count }}</h2>
-          <span>Friends</span>
-        </div>
-        <div >
-          <h2>{{ account.follows }}</h2>
-          <span>Comments</span>
-        </div>
+
       </div>
-      <p class="mt-2 font-sans font-light text-grey-dark text-sm text-justify">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
-        a type specimen book.
-      </p>
     </div>
-    <div>
-      <div> Joined {{ account.created_at }}</div>
-      <PendingRequest :requests="account.pending_friend_request"/>
-    </div>
-    <hr class="block py-4 mt-4">
   </div>
+
 </template>
 <script>
 import PendingRequest from "../../components/PendingRequest";
@@ -46,9 +65,5 @@ import PendingRequest from "../../components/PendingRequest";
 export default {
   components: { PendingRequest },
   middleware: ['auth'],
-  async asyncData({$axios, store}) {
-    const {data} = await $axios.$get(`/profiles/${store.state.auth.user.username}`);
-    return {account : data}
-  },
 }
 </script>

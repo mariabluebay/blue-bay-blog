@@ -1,7 +1,7 @@
 <template>
   <footer
     v-if="authenticated && (user.id === author.id  || user.role === 'admin' )"
-    class="card-footer has-background-black">
+    class="card-footer custom-card-footer has-background-black">
     <nuxt-link :to="'/posts/' + post.slug"
                class="card-footer-item has-text-white has-text-weight-bold	">
       Read
