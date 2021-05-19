@@ -102,7 +102,7 @@ trait Followable {
         $res = (bool)$this->followers()
             ->where('user_id', auth()->id())
             ->exists();
-        if(!$res){
+        if( !$res ) {
             $res = auth()->user()->following($this);
         }
         return $res;
@@ -134,7 +134,7 @@ trait Followable {
      */
     public function getFriendsAttribute()
     {
-        if($temp = $this->friendsOfThisUser)
+        if( $temp = $this->friendsOfThisUser )
             return $temp->merge($this->thisUserFriendOf);
         else
             return $this->thisUserFriendOf;

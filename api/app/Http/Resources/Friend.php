@@ -19,14 +19,22 @@ class Friend extends JsonResource
     {
         $avatar = URL::to('/') . '/images/avatar.svg';
 
-        if( !is_null( $this->avatar ) && !empty( $this->avatar ) ){
+        if( !is_null( $this->avatar ) && !empty( $this->avatar ) ) {
             $avatar = URL::to('/') . Storage::url('profiles/'. $this->username.'/avatar/' . $this->avatar);
+        }
+
+        $status = $this->follows()->where('following_user_id', auth()->id())->value('status');
+
+        if( is_null( $status ) ) {
+            $status = $this->followers()->where('user_id', auth()->id())->value('status');
         }
 
         return [
             'username' => $this->username,
             'name' => $this->name,
             'avatar' => $avatar,
+            'is_followed' => $this->is_followed,
+            'status' => $status
         ];
     }
 }

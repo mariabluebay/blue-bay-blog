@@ -37,7 +37,6 @@ class User extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'friends_count' => count($this->confirmedFriends),
-            'is_followed' => $this->is_followed,
             'avatar' => $avatar,
             'cover' => $cover,
             'posts' => PostResource::collection($this->whenLoaded('posts')),
