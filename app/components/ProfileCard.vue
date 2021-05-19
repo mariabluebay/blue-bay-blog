@@ -1,11 +1,12 @@
 <template>
-  <div class="card">
+  <div class="card full">
 
     <div class="card-image">
       <figure class="image is-2by1">
         <img :src="account.cover"
              alt="Profile Cover"
-             class="is-cover">
+             class="is-cover"
+        >
       </figure>
     </div>
 
@@ -15,7 +16,8 @@
           :src="account.avatar"
           :alt="account.username"
           class=" is-rounded rounded-full border-solid border-white border-2 w-12 h-12 object-cover"
-          id="profilePicture"/>
+          id="profilePicture"
+        />
       </figure>
     </div>
 
@@ -24,9 +26,9 @@
       <slot></slot>
 
       <h3 class="title is-2 is-spaced bd-anchor-title has-text-centered">
-                <span class="is-upper">
-                 {{ account.name ? account.name : account.username }}
-                </span>
+          <span class="is-upper">
+           {{ account.name ? account.name : account.username }}
+          </span>
       </h3>
       <h4 class="subtitle is-4 has-text-centered has-text-grey">
         {{ account.about ?  account.about : 'No tagline yet.'}}
@@ -35,7 +37,7 @@
 
     <footer class="card-footer no-top-margin no-left-margin">
       <div class="card-footer-item has-text-centered is-flex-direction-column">
-        <h5> {{ account.followers_count + account.follows_count }} </h5>
+        <h5> {{ account.friends_count }} </h5>
         <p>  Friends </p>
       </div>
       <div class="card-footer-item is-flex-direction-column">
