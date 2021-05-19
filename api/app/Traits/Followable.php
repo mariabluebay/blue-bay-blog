@@ -52,7 +52,7 @@ trait Followable {
     }
 
     /**
-     * requests initiated
+     * users that auth user follows
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -63,7 +63,7 @@ trait Followable {
     }
 
     /**
-     * requests recieved
+     * users that are following the auth user
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -114,8 +114,8 @@ trait Followable {
     protected function friendsOfThisUser()
     {
         return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')
-            ->withPivot('status')
-            ->wherePivot('status', 'confirmed');
+                    ->withPivot('status')
+                    ->wherePivot('status', 'confirmed');
     }
     /**
      * frienship requests received by this user
@@ -123,8 +123,8 @@ trait Followable {
     protected function thisUserFriendOf()
     {
         return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'user_id')
-            ->withPivot('status')
-            ->wherePivot('status', 'confirmed');
+                    ->withPivot('status')
+                    ->wherePivot('status', 'confirmed');
     }
 
     /**
@@ -146,8 +146,8 @@ trait Followable {
     protected function blocked_users()
     {
         return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')
-            ->withPivot('status')
-            ->wherePivot('status', 'blocked');
+                    ->withPivot('status')
+                    ->wherePivot('status', 'blocked');
     }
 
     /***
@@ -156,8 +156,8 @@ trait Followable {
     protected function blocked_friendship_requests()
     {
         return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'user_id')
-            ->withPivot('status')
-            ->wherePivot('status', 'blocked');
+                    ->withPivot('status')
+                    ->wherePivot('status', 'blocked');
     }
 
     /**
@@ -180,7 +180,7 @@ trait Followable {
     protected function friend_request_received()
     {
         return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'user_id')
-        ->withPivot('status')
-        ->wherePivot('status', 'pending');
+                    ->withPivot('status')
+                    ->wherePivot('status', 'pending');
     }
 }

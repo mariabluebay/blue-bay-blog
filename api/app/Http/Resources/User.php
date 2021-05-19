@@ -4,8 +4,6 @@ namespace App\Http\Resources;
 
 use App\Http\Resources\Post as PostResource;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
 
 class User extends JsonResource
 {
@@ -17,17 +15,6 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-        $avatar = URL::to('/') . '/images/avatar.svg';
-        $cover = URL::to('/') . '/images/cover.jpg';
-
-        if( !is_null( $this->avatar ) && !empty( $this->avatar ) ){
-            $avatar = URL::to('/') . Storage::url('profiles/'. $this->username.'/avatar/' . $this->avatar);
-        }
-
-        if( !is_null( $this->cover ) && !empty( $this->cover ) ){
-            $cover = URL::to('/') . Storage::url('profiles/' .$this->username.'/cover/' . $this->cover);
-        }
-
         return [
             'username' => $this->username,
             'name' => $this->name,
@@ -37,8 +24,8 @@ class User extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'friends_count' => count($this->confirmedFriends),
-            'avatar' => $avatar,
-            'cover' => $cover,
+            'avatar' => $this->avatar_url,
+            'cover' => $this->cover_url,
             'posts' => PostResource::collection($this->whenLoaded('posts')),
             'friends' => $this->confirmedFriends,
             'pending_friend_request' => $this->pendingFriendRequests,

@@ -3,6 +3,9 @@
 namespace App;
 
 use App\Http\Resources\Friend as FriendResource;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -86,7 +89,7 @@ class User extends Authenticatable implements JWTSubject
         if( count($solicitors) > 0 ) {
             $list = FriendResource::collection(
                 User::whereIn('username', $solicitors)->get()
-            );
+            )->additional(['status', 'pending']);
         }
 
         return $list;
@@ -100,9 +103,36 @@ class User extends Authenticatable implements JWTSubject
         if( count($friends) > 0 ) {
             $list = FriendResource::collection(
                 User::whereIn('username', $friends)->get()
-            );
+            )->additional(['status', 'confirmed']);
         }
 
         return $list;
+    }
+
+    public function getAvatarUrlAttribute() {
+        $avatar = URL::to('/') . '/images/avatar.svg';
+
+        if( !is_null( $this->avatar ) && !empty( $this->avatar ) ) {
+            $avatar = URL::to('/') . Storage::url('profiles/'. $this->username.'/avatar/' . $this->avatar);
+        }
+
+        return $avatar;
+    }
+
+    public function getCoverUrlAttribute() {
+        $cover = URL::to('/') . '/images/cover.jpg';
+
+        if( !is_null( $this->cover ) && !empty( $this->cover ) ){
+            $cover = URL::to('/') . Storage::url('profiles/' .$this->username.'/cover/' . $this->cover);
+        }
+
+        return $cover;
+    }
+
+    public function getFriendshipStatusAttribute(){
+        return DB::table('follows')
+            ->whereIn('user_id', [ auth()->id(), $this->id])
+            ->whereIn('following_user_id', [auth()->id(), $this->id ])
+            ->value('status');
     }
 }
