@@ -1,0 +1,68 @@
+<template>
+  <div class="max-width full mb-4">
+    <h3 class="title is-4">{{ title }}</h3>
+    <div v-if="friends.length == 0">Nothing to display.</div>
+    <div v-for="friend in friends"
+         class="media"
+    >
+      <div class="media-left">
+        <a :href="'/profiles/'+ friend.username">
+          <figure class="image is-24x24">
+            <img :src="friend.avatar" :alt="friend.username">
+          </figure>
+        </a>
+      </div>
+      <div class="media-content">
+        <p class="subtitle is-6" >
+          <a :href="'/profiles/'+ friend.username">
+            {{ friend.name ? friend.name : friend.username }}
+          </a>
+        </p>
+        <p v-if="pending" class="buttons">
+          <button @click.prevent="accept(friend.username)"
+                  class="button is-primary is-small">
+            <span class="icon is-small">
+              <font-awesome-icon :icon="['fas', 'user-check']" />
+            </span>
+            <span>Accept</span>
+          </button>
+          <button @click.prevent="decline(friend.username)"
+                  class="button is-danger is-small">
+            <span class="icon is-small">
+              <font-awesome-icon :icon="['fas', 'user-minus']" />
+            </span>
+            <span>Decline</span>
+          </button>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<script>
+export default {
+  name: "FriendsList",
+  props: ['friends', 'pending'],
+  computed: {
+    title: function () {
+      return this.pending ? 'Pending friend request' : 'Friends';
+    }
+  },
+  methods: {
+     async accept(username) {
+       await this.$axios.post(`/profiles/${username}/accept`)
+        .then(() => this.$nuxt.refresh());
+    },
+
+     async decline (username) {
+       await this.$axios.post(`/profiles/${username}/decline`)
+        .then(() => this.$nuxt.refresh());
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
