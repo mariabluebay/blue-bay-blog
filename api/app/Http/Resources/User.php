@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\Post as PostResource;
-use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -37,14 +36,13 @@ class User extends JsonResource
             'role' => $this->role,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'follows_count' => $this->follows_count,
-            'followers_count' => $this->followers_count,
+            'friends_count' => count($this->confirmedFriends),
             'is_followed' => $this->is_followed,
             'avatar' => $avatar,
             'cover' => $cover,
             'posts' => PostResource::collection($this->whenLoaded('posts')),
-            'friends' => $this->friends->toArray(),
-            'pending_friend_request' => $this->friend_request_received->toArray(),
+            'friends' => $this->confirmedFriends,
+            'pending_friend_request' => $this->pendingFriendRequests,
             'posts_count' => $this->posts_count,
             'blocked_users' => $this->blockedUser
         ];

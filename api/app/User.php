@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Resources\Friend as FriendResource;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -77,4 +78,31 @@ class User extends Authenticatable implements JWTSubject
         return $this->posts()->count();
     }
 
+    public function getPendingFriendRequestsAttribute(){
+        $list = [];
+
+        $solicitors = $this->friend_request_received->pluck('username');
+
+        if( count($solicitors) > 0 ) {
+            $list = FriendResource::collection(
+                User::whereIn('username', $solicitors)->get()
+            );
+        }
+
+        return $list;
+    }
+
+    public function getConfirmedFriendsAttribute(){
+        $list = [];
+
+        $friends = $this->friends->pluck('username');
+
+        if( count($friends) > 0 ) {
+            $list = FriendResource::collection(
+                User::whereIn('username', $friends)->get()
+            );
+        }
+
+        return $list;
+    }
 }
