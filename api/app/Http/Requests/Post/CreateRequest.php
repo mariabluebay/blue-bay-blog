@@ -28,8 +28,10 @@ class CreateRequest extends FormRequest
             'excerpt' => 'required|max:255',
             'body' => 'required',
             'active' => 'required|boolean',
-            'audience' => 'required',
+            'audience' => 'required|string',
             'featured' => 'nullable|image'
         ];
     }
+
+
 }
