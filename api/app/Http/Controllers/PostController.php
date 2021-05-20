@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Post;
 use App\Access;
+use App\User;
 use App\Http\Requests\Post\CreateRequest as CreatePostRequest;
 use App\Http\Requests\Post\UpdateRequest as UpdatePostRequest;
 use App\Http\Resources\Post as PostResource;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 
@@ -150,13 +150,18 @@ class PostController extends Controller
     }
 
     /**
-     * Get the latest authenticated users posts
-     * Plus his friends post( with a public or a friends audience)
+     * Get user's timeline
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function timeline() {
-        $posts = auth()->user()->timeline();
+    public function timeline(User $user) {
+
+        if( $user->id !== auth()->user()->id ) {
+            $posts = $user->publicTimeline();
+        } else {
+            $posts = $user->timeline();
+        }
+
         return PostResource::collection($posts);
     }
 }

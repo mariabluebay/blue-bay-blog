@@ -175,6 +175,23 @@ class User extends Authenticatable implements JWTSubject
             ->orWhere('author_id', $this->id)
             ->latest()
             ->with('author')
-            ->paginate(10);
+            ->paginate(3);
+    }
+
+    /**
+     * Latest public posts of this user
+     *
+     * @return mixed
+     */
+    public function publicTimeline(){
+        $accessible = DB::table('access')
+            ->where('user_id', $this->id)
+            ->whereIn('accessible_for', ['public'])
+            ->where('accessible_type', Str::studly(Post::class))
+            ->pluck('accessible_id');
+        return Post::whereIn('id', $accessible)
+            ->latest()
+            ->with('author')
+            ->paginate(3);
     }
 }
