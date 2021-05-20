@@ -25,22 +25,19 @@ class Post extends JsonResource
             $published_at =  Carbon::createFromFormat('Y-m-d H:i:s', $this->published_at)->diffForHumans();
         }
 
-        if(!is_null($this->featured) && !empty( $this->featured )){
-            $imageUrl = URL::to('/') . Storage::url('posts/featured/' . $this->featured);
-        }
-
         return [
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
-            'featured' => $imageUrl,
+            'featured' => $this->featured_url,
             'active' => $this->active,
             'body' => $this->body,
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
             'published_at' => $published_at,
             'author' => new UserResource($this->whenLoaded('author')),
+            'audience' => $this->audience
         ];
     }
 }

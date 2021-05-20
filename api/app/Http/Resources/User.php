@@ -24,16 +24,16 @@ class User extends JsonResource
             'role' => $this->role,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'friends_count' => count($this->confirmedFriends),
+            'friends_count' => count($this->confirmed_friends),
             'avatar' => $this->avatar_url,
             'cover' => $this->cover_url,
             'posts' => PostResource::collection($this->whenLoaded('posts')),
             'friends' => $this->confirmedFriends,
-            'pending_friend_request' => $this->pendingFriendRequests,
+            'pending_friend_request' => $this->pending_friend_requests,
             'posts_count' => $this->posts_count,
-            'blocked_users' => $this->blockedUser,
+            'blocked_users' => $this->blocked_user,
             'is_followed' => $this->is_followed,
-            'follows' => $this->pendingFriendRequestsSent
+            'follows' => $this->pending_friend_requests_sent
         ];
     }
 }

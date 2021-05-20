@@ -4,25 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Post;
+use App\Access;
 use App\Http\Requests\Post\CreateRequest as CreatePostRequest;
 use App\Http\Requests\Post\UpdateRequest as UpdatePostRequest;
 use App\Http\Resources\Post as PostResource;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+
 
 class PostController extends Controller
 {
     /**
-     * Get all posts
+     * Get latest posts that are visible for public or friends
      *
      * @return mixed
      */
     public function index()
     {
         $posts = Post::latest()->with('author')->paginate(5);
-        return PostResource::collection($posts);
+        $filtered = $posts->whereIn('audience', ['public', 'friends']);
+        return PostResource::collection($filtered);
     }
 
+    /**
+     * Returns a post based on it slug
+     *
+     * @param $slug
+     * @return PostResource
+     */
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->with('author')->firstOrFail();
@@ -66,7 +74,14 @@ class PostController extends Controller
         }
 
         $post->author()->associate($request->user());
+
+        $access = new Access();
+        $access->user()->associate($request->user());
+        $access->accessible_for = $request->audience;
+
         $post->save();
+
+        $post->audience()->save($access);
 
         return  new PostResource($post);
     }
@@ -131,5 +146,16 @@ class PostController extends Controller
             $file->storeAs('posts/featured', $filename, 'public');
         }
         return $filename;
+    }
+
+    /**
+     * Get the latest authenticated users posts
+     * Plus his friends post( with a public or a friends audience)
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function timeline(){
+        $posts = auth()->user()->timeline();
+        return PostResource::collection($posts);
     }
 }
