@@ -16,6 +16,11 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
+        $is_followed = false;
+
+        if( $request->user() ){
+            $is_followed = $this->is_followed;
+        }
         return [
             'username' => $this->username,
             'name' => $this->name,
@@ -32,7 +37,7 @@ class User extends JsonResource
             'pending_friend_request' => $this->pending_friend_requests,
             'posts_count' => $this->posts_count,
             'blocked_users' => $this->blocked_user,
-            'is_followed' => $this->is_followed,
+            'is_followed' => $is_followed,
             'follows' => $this->pending_friend_requests_sent
         ];
     }

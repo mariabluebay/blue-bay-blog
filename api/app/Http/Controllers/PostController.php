@@ -21,7 +21,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::latest()->with('author')->paginate(5);
-        $filtered = $posts->whereIn('audience', ['public', 'friends']);
+        $filtered = $posts->whereIn('audience', ['public']);
         return PostResource::collection($filtered);
     }
 
