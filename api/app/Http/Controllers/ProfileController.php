@@ -12,7 +12,9 @@ class ProfileController extends Controller
     public function show($username)
     {
         $user = User::where('username', $username)->with('posts')->firstOrFail();
-        return new UserResource($user->loadMissing(['posts']));
+        $data  =  new UserResource( $user->loadMissing(['posts']) );
+
+        return $data->additional(['data'=>['friendship_status' => $user->friendship_status]]);
     }
 
     public function update(EditProfileRequest $request)

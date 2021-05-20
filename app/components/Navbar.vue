@@ -74,7 +74,8 @@
 <script>
 import LogoSmall from "./LogoSmall";
 export default {
-  components: {LogoSmall},
+  name: "Navbar",
+  components: { LogoSmall },
   methods: {
     logout () {
       this.$auth.logout()

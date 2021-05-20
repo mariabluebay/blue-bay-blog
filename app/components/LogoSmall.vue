@@ -1,7 +1,11 @@
 <template>
   <img src="~/assets/images/logo-small.png" alt="Blog" class="logo">
 </template>
-
+<script>
+export default {
+  name: "LogoSmall"
+}
+</script>
 <style>
 .logo {
   animation: 1s appear;

@@ -8,10 +8,23 @@
   src: url('~/assets/fonts/Newsreader-Medium.ttf') format('truetype');
 }
 
-* {
+body {
   font-family: Newsread-ExtraLight, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-style: normal;
   font-weight: 200;
+}
+
+button {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+
+span {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
 }
 
 .navbar-start {
@@ -38,6 +51,7 @@
   border: 1px solid #ededed;
   border-radius: 0;
 }
+
 .post-title {
   display: block;
   font-weight: 300;
@@ -45,7 +59,7 @@
   letter-spacing: 1px;
 }
 
-.small-post-title{
+.small-post-title {
   font-size: 1.5rem;
   color: #363636;
   font-weight: 600;
@@ -62,9 +76,9 @@
   border-bottom-right-radius: 0;
 }
 
-.card-footer{
+.custom-card-footer {
   border-left: 1px solid black;
-  border-radius: 1px solid black;
+  border-right: 1px solid black;
 }
 
 .main-post-body::first-letter {
@@ -85,6 +99,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .hero-background {
   position: absolute;
   object-fit: cover;
@@ -92,8 +107,26 @@
   width: 100%;
   height: 100%;
 }
+
 .hero-background.is-transparent {
   opacity: 0.3;
+}
+
+.profile-card-avatar {
+  top: -100px;
+  margin-bottom: -80px;
+}
+
+.no-top-margin {
+  border-top: 0;
+}
+
+.no-left-margin {
+  border-left: 0;
+}
+
+.full{
+  min-width: 100%;
 }
 
 /*

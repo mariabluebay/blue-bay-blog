@@ -25,8 +25,13 @@
 <script>
   import PostFooter from "./PostFooter";
   import PostHeader from "./PostHeader";
+
   export default {
-    components: {PostHeader, PostFooter },
+    name: "Post",
+    components: {
+      PostHeader,
+      PostFooter
+    },
     props: [
       'post',
       'author'

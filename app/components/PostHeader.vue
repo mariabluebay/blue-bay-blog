@@ -18,6 +18,7 @@
 
 <script>
 export default {
+  name: "PostHeader",
   props: ['author', 'time'],
 }
 </script>

@@ -2,14 +2,19 @@
 
 namespace App;
 
+use App\Http\Resources\Friend as FriendResource;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Traits\Followable;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable;
+    use Notifiable, Followable;
 
     /**
      * The attributes that are mass assignable.
@@ -71,4 +76,47 @@ class User extends Authenticatable implements JWTSubject
                     ->latest();
     }
 
+    public function getPostsCountAttribute()
+    {
+        return $this->posts()->count();
+    }
+
+    public function getPendingFriendRequestsAttribute(){
+        return FriendResource::collection($this->friend_request_received);
+    }
+
+    public function getConfirmedFriendsAttribute(){
+        return FriendResource::collection($this->friends);
+    }
+
+    public function getPendingFriendRequestsSentAttribute(){
+        return FriendResource::collection($this->friend_request_sent);
+    }
+
+    public function getAvatarUrlAttribute() {
+        $avatar = URL::to('/') . '/images/avatar.svg';
+
+        if( !is_null( $this->avatar ) && !empty( $this->avatar ) ) {
+            $avatar = URL::to('/') . Storage::url('profiles/'. $this->username.'/avatar/' . $this->avatar);
+        }
+
+        return $avatar;
+    }
+
+    public function getCoverUrlAttribute() {
+        $cover = URL::to('/') . '/images/cover.jpg';
+
+        if( !is_null( $this->cover ) && !empty( $this->cover ) ){
+            $cover = URL::to('/') . Storage::url('profiles/' .$this->username.'/cover/' . $this->cover);
+        }
+
+        return $cover;
+    }
+
+    public function getFriendshipStatusAttribute(){
+        return DB::table('follows')
+            ->whereIn('user_id', [ auth()->id(), $this->id])
+            ->whereIn('following_user_id', [auth()->id(), $this->id ])
+            ->value('status');
+    }
 }
