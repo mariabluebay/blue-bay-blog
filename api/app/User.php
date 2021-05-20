@@ -166,7 +166,7 @@ class User extends Authenticatable implements JWTSubject
         $accessible = Access::whereIn('user_id', $friends)
             ->where('accessible_type', Post::class)
             ->whereIn('accessible_for', ['public, friends'])
-            ->pluck('acessible_id');
+            ->pluck('accessible_id');
 
         return Post::whereIn('id', $accessible)
             ->orWhere('author_id', $this->id)

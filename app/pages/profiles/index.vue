@@ -15,6 +15,9 @@
       <div class="tile is-parent is-6">
         <ProfileCard :account="user"/>
       </div>
+      <div class="tile is-parent is-4 is-vertical">
+        <h3 class="title is-4">Latest posts</h3>
+      </div>
     </div>
   </div>
 </template>

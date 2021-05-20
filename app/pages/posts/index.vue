@@ -31,10 +31,16 @@
         posts: []
       }
     },
-    async asyncData({$axios}) {
-      let {data} = await $axios.$get('/posts')
+    async asyncData( {store, $axios} ) {
+      let res = null;
+      if (!store.state.auth.loggedIn) {
+        res = await $axios.$get('/posts')
+      } else {
+        res = await $axios.$get(`/profiles/${store.state.auth.user.username}/timeline`)
+      }
+
       return {
-        posts: data
+        posts: res.data
       }
     },
   }
