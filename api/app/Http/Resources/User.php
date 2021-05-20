@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\Post as PostResource;
+use App\Http\Resources\Friend as FriendResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class User extends JsonResource
@@ -31,7 +32,8 @@ class User extends JsonResource
             'pending_friend_request' => $this->pendingFriendRequests,
             'posts_count' => $this->posts_count,
             'blocked_users' => $this->blockedUser,
-            'is_followed' => $this->is_followed
+            'is_followed' => $this->is_followed,
+            'follows' => $this->pendingFriendRequestsSent
         ];
     }
 }

@@ -11,6 +11,9 @@ export const mutations = {
   },
   UPDATE_PENDING_FRIENDS( state, friends ) {
     state.auth.user.pending_friend_request = friends;
+  },
+  UPDATE_FOLLOWS( state, friends ) {
+    state.auth.user.follows = friends;
   }
 }
 
@@ -20,6 +23,7 @@ export const actions = {
       commit('UPDATE_FRIENDS', response.data.data.friends);
       commit('UPDATE_FRIENDS_COUNT', response.data.data.friends_count);
       commit('UPDATE_PENDING_FRIENDS', response.data.data.pending_friend_request);
+      commit('UPDATE_FOLLOWS', response.data.data.follows);
     })
   },
 }

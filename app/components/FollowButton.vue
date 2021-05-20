@@ -79,33 +79,33 @@ export default {
      follow(username) {
         this.$axios.post(`/profiles/${username}/follow`)
         .then(() => {
-          this.updateFriends();
-          this.$nuxt.refresh();
-        });
+          this.updateFriends()
+          this.$nuxt.refresh()
+        })
     },
 
     block(username) {
         this.$axios.post(`/profiles/${username}/block`)
         .then(() => {
-          this.updateFriends();
-          this.$router.push({ path: '/profiles' });
-        });
+          this.updateFriends()
+          this.$router.push({ path: '/profiles' })
+        })
     },
 
     accept(username) {
         this.$axios.post(`/profiles/${username}/accept`)
         .then(() => {
-          this.updateFriends();
+          this.updateFriends()
           this.$nuxt.refresh()
-        });
+        })
     },
 
     decline (username) {
         this.$axios.post(`/profiles/${username}/decline`)
         .then(() => {
-          this.updateFriends();
-          this.$nuxt.refresh();
-        });
+          this.updateFriends()
+          this.$nuxt.refresh()
+        })
     }
   }
 }

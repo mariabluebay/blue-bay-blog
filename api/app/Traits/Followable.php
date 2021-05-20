@@ -183,4 +183,17 @@ trait Followable {
                     ->withPivot('status')
                     ->wherePivot('status', 'pending');
     }
+
+    /**
+     * pending friend request sent
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    protected function friend_request_sent()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'user_id', 'following_user_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'pending');
+    }
+
 }

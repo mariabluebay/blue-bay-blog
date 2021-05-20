@@ -82,31 +82,15 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function getPendingFriendRequestsAttribute(){
-        $list = [];
-
-        $solicitors = $this->friend_request_received->pluck('username');
-
-        if( count($solicitors) > 0 ) {
-            $list = FriendResource::collection(
-                User::whereIn('username', $solicitors)->get()
-            )->additional(['status', 'pending']);
-        }
-
-        return $list;
+        return FriendResource::collection($this->friend_request_received);
     }
 
     public function getConfirmedFriendsAttribute(){
-        $list = [];
+        return FriendResource::collection($this->friends);
+    }
 
-        $friends = $this->friends->pluck('username');
-
-        if( count($friends) > 0 ) {
-            $list = FriendResource::collection(
-                User::whereIn('username', $friends)->get()
-            )->additional(['status', 'confirmed']);
-        }
-
-        return $list;
+    public function getPendingFriendRequestsSentAttribute(){
+        return FriendResource::collection($this->friend_request_sent);
     }
 
     public function getAvatarUrlAttribute() {
