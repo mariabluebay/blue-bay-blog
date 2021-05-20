@@ -6,4 +6,4 @@ export const getters = {
   user ( state, getters, rootState ) {
     return rootState.auth.user;
   }
-};
+}

@@ -17,8 +17,9 @@ export default {
   components: {ProfileCard, FollowButton },
 
   middleware({ store, redirect, params }) {
+
     let blockedUsers = store.state.auth.user.blocked_users;
-    if (blockedUsers.includes(params.username)) {
+    if (blockedUsers.length && blockedUsers.includes(params.username)) {
       return redirect(404)
     }
   },

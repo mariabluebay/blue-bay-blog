@@ -30,7 +30,8 @@ class User extends JsonResource
             'friends' => $this->confirmedFriends,
             'pending_friend_request' => $this->pendingFriendRequests,
             'posts_count' => $this->posts_count,
-            'blocked_users' => $this->blockedUser
+            'blocked_users' => $this->blockedUser,
+            'is_followed' => $this->is_followed
         ];
     }
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="max-width full mb-4">
     <h3 class="title is-4">{{ title }}</h3>
-    <div v-if="friends.length == 0">Nothing to display.</div>
-    <div v-for="friend in friends"
+    <div v-if="!friends.length">Nothing to display.</div>
+    <div v-for="(friend) in friends"
          class="media"
     >
       <div class="media-left">
@@ -41,23 +41,27 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+
 export default {
   name: "FriendsList",
   props: ['friends', 'pending'],
   computed: {
     title: function () {
-      return this.pending ? 'Pending friend request' : 'Friends';
+      return this.pending ? 'Pending friend request' : 'Friends'
     }
   },
   methods: {
-     async accept(username) {
-       await this.$axios.post(`/profiles/${username}/accept`)
-        .then(() => this.$nuxt.refresh());
+    ...mapActions( ["updateFriends"] ),
+
+     accept(username) {
+       this.$axios.post(`/profiles/${username}/accept`)
+       .then( () => this.updateFriends())
     },
 
-     async decline (username) {
-       await this.$axios.post(`/profiles/${username}/decline`)
-        .then(() => this.$nuxt.refresh());
+     decline (username) {
+      this.$axios.post(`/profiles/${username}/decline`)
+      .then( () => this.updateFriends )
     }
   }
 }
