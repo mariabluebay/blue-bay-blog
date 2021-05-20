@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use App\Traits\Followable;
 
 class User extends Authenticatable implements JWTSubject
@@ -163,9 +164,11 @@ class User extends Authenticatable implements JWTSubject
     public function timeline()
     {
         $friends = $this->friends->pluck('id');
-        $accessible = Access::whereIn('user_id', $friends)
-            ->where('accessible_type', Post::class)
-            ->whereIn('accessible_for', ['public, friends'])
+
+        $accessible = DB::table('access')
+            ->whereIn('user_id', $friends)
+            ->whereIn('accessible_for', ['public', 'friends'])
+            ->where('accessible_type', Str::studly(Post::class))
             ->pluck('accessible_id');
 
         return Post::whereIn('id', $accessible)

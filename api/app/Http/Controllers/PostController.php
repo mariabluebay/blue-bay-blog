@@ -8,6 +8,7 @@ use App\Access;
 use App\Http\Requests\Post\CreateRequest as CreatePostRequest;
 use App\Http\Requests\Post\UpdateRequest as UpdatePostRequest;
 use App\Http\Resources\Post as PostResource;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 
@@ -154,7 +155,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function timeline(){
+    public function timeline() {
         $posts = auth()->user()->timeline();
         return PostResource::collection($posts);
     }
