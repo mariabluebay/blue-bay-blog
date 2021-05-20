@@ -17,10 +17,11 @@ export default {
   components: {ProfileCard, FollowButton },
 
   middleware({ store, redirect, params }) {
-
-    let blockedUsers = store.state.auth.user.blocked_users;
-    if (blockedUsers.length && blockedUsers.includes(params.username)) {
-      return redirect(404)
+    if (store.state.authenticated) {
+      let blockedUsers = store.state.auth.user.blocked_users;
+      if (blockedUsers.length && blockedUsers.includes(params.username)) {
+        return redirect(404)
+      }
     }
   },
 
