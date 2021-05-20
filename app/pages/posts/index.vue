@@ -1,6 +1,6 @@
 <template>
   <div class="tile is-ancestor">
-    <div class="tile is-vertical is-8">
+    <div v-if="posts.length > 0" class="tile is-vertical is-8">
       <div class="tile">
         <div class="tile is-parent">
           <MainPost :post="posts[0]"/>
