@@ -155,13 +155,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function timeline(User $user) {
-
-        if( $user->id !== auth()->user()->id ) {
-            $posts = $user->publicTimeline();
-        } else {
-            $posts = $user->timeline();
-        }
-
+       $posts = $user->timeline();
         return PostResource::collection($posts);
     }
 }
