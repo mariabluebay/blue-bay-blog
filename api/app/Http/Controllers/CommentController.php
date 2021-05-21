@@ -13,7 +13,7 @@ class CommentController extends Controller
     public function store(CreateRequest $request)
     {
 
-        $post =  Post::where('slug', $request->post)->firstorFail();
+        $post =  Post::where('slug', $request->slug)->firstorFail();
 
         $comment = new Comment();
         $comment->body = $request->body;

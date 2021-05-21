@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Author as AuthorResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Comment extends JsonResource
@@ -15,8 +16,10 @@ class Comment extends JsonResource
     public function toArray($request)
     {
         return [
-            'post' => $this->post,
-            'body' => $this->body
+            'author' => new AuthorResource($this->user),
+            'body' => $this->body,
+            'created_at' => $this->created_at->diffForHumans(),
+            'updated_at' => $this->updated_at->diffForHumans(),
         ];
     }
 }

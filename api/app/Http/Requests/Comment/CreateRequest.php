@@ -24,7 +24,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'post' => 'required',
+            'slug' => 'required',
             'body' => 'required|string|max:255',
         ];
     }
