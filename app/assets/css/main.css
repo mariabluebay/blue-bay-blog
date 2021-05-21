@@ -124,6 +124,9 @@ span {
 .no-left-margin {
   border-left: 0;
 }
+.no-bottom-margin, .no-bottom-margin:not(:last-child) {
+  margin-bottom: 0;
+}
 
 .full{
   min-width: 100%;

@@ -36,6 +36,7 @@ export default {
     '@/plugins/mixins/imageHost.js',
     '@/plugins/mixins/user.js',
     '@/plugins/mixins/validation.js',
+    '@/plugins/mixins/timeline.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -14,7 +14,7 @@
              class="is-cover">
       </nuxt-link>
     </figure>
-    <div class="content has-border main-post-body p-4" v-html="post.body"></div>
+    <div class="content has-border main-post-body p-4 no-bottom-margin" v-html="post.body"></div>
     <PostFooter :author="post.author" :post="post"/>
   </article>
 </template>
@@ -22,6 +22,7 @@
 <script>
   import PostFooter from "./PostFooter";
   import PostHeader from "./PostHeader";
+  import {mapActions} from "vuex";
 
   export default {
     name: "MainPost",

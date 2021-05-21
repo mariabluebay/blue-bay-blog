@@ -1,6 +1,7 @@
 <template>
+  <div>
   <div class="tile is-ancestor">
-    <div class="tile is-vertical is-8">
+    <div v-if="posts.length > 0" class="tile is-vertical is-8">
       <div class="tile">
         <div class="tile is-parent">
           <MainPost :post="posts[0]"/>
@@ -17,26 +18,33 @@
       </article>
     </div>
   </div>
+    <Pagination :links="this.timeline.links" :meta="this.timeline.meta"/>
+  </div>
 </template>
 
 <script>
   import Post from "../../components/Post";
   import MainPost from "../../components/MainPost";
+  import Pagination from "../../components/Pagination";
 
   export default {
-    components: { MainPost, Post },
+    components: { Pagination, MainPost, Post },
 
-    data() {
-      return {
-        posts: []
+     async asyncData( {store, $axios} ) {
+      let res = null;
+      if (!store.state.auth.loggedIn) {
+        res =  await $axios.$get('/posts')
+      } else {
+        res =  await $axios.$get(`/profiles/${store.state.auth.user.username}/timeline`)
       }
+       return store.dispatch('timeline/updateTimeline', res);
     },
-    async asyncData({$axios}) {
-      let {data} = await $axios.$get('/posts')
-      return {
-        posts: data
+
+    computed: {
+      posts() {
+        return this.timeline.data
       }
-    },
+    }
   }
 </script>
 

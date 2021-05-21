@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Author as AuthorResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
 
 class Post extends JsonResource
 {
@@ -19,14 +17,9 @@ class Post extends JsonResource
     public function toArray($request)
     {
         $published_at = null;
-        $imageUrl = '';
 
         if( !is_null( $this->published_at ) || !empty( $this->published_at ) ){
             $published_at =  Carbon::createFromFormat('Y-m-d H:i:s', $this->published_at)->diffForHumans();
-        }
-
-        if(!is_null($this->featured) && !empty( $this->featured )){
-            $imageUrl = URL::to('/') . Storage::url('posts/featured/' . $this->featured);
         }
 
         return [
@@ -34,13 +27,14 @@ class Post extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
-            'featured' => $imageUrl,
+            'featured' => $this->featured_url,
             'active' => $this->active,
             'body' => $this->body,
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
             'published_at' => $published_at,
-            'author' => new UserResource($this->whenLoaded('author')),
+            'author' => new AuthorResource($this->whenLoaded('author')),
+            'audience' => $this->audience
         ];
     }
 }

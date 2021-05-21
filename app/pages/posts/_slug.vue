@@ -3,7 +3,7 @@
     <div class="column is-half">
       <div class="card">
         <header
-          v-if="authenticated && (user.id === post.author.id  || user.role === 'admin' )"
+          v-if="authenticated && (user.username === post.author.username  || user.role === 'admin' )"
           class="card-header">
           <nuxt-link :to="{ name: 'posts-edit', params: { slug: post.slug}}"
                      class="card-footer-item">

@@ -27,4 +27,5 @@ Route::group([
     Route::post('/profiles/{user:username}/block', 'FollowsController@block');
     Route::post('/profiles/{user:username}/accept', 'FollowsController@accept');
     Route::post('/profiles/{user:username}/decline', 'FollowsController@decline');
+    Route::get('/profiles/{user:username}/timeline', 'PostController@timeline');
 });

@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use App\Traits\Followable;
 
 class User extends Authenticatable implements JWTSubject
@@ -76,23 +77,48 @@ class User extends Authenticatable implements JWTSubject
                     ->latest();
     }
 
+    /**
+     * The number of posts
+     *
+     * @return int
+     */
     public function getPostsCountAttribute()
     {
         return $this->posts()->count();
     }
 
+    /**
+     * The pending friendship request received by user
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function getPendingFriendRequestsAttribute(){
         return FriendResource::collection($this->friend_request_received);
     }
 
+    /**
+     * The confirmed friendship requests
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function getConfirmedFriendsAttribute(){
         return FriendResource::collection($this->friends);
     }
 
+    /**
+     * The friendship request sent by user
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function getPendingFriendRequestsSentAttribute(){
         return FriendResource::collection($this->friend_request_sent);
     }
 
+    /**
+     * The avatar url
+     *
+     * @return string
+     */
     public function getAvatarUrlAttribute() {
         $avatar = URL::to('/') . '/images/avatar.svg';
 
@@ -103,6 +129,11 @@ class User extends Authenticatable implements JWTSubject
         return $avatar;
     }
 
+    /**
+     * The profile cover url
+     *
+     * @return string
+     */
     public function getCoverUrlAttribute() {
         $cover = URL::to('/') . '/images/cover.jpg';
 
@@ -113,10 +144,41 @@ class User extends Authenticatable implements JWTSubject
         return $cover;
     }
 
+    /**
+     * The friendship status between users
+     *
+     * @return mixed|null
+     */
     public function getFriendshipStatusAttribute(){
         return DB::table('follows')
             ->whereIn('user_id', [ auth()->id(), $this->id])
             ->whereIn('following_user_id', [auth()->id(), $this->id ])
             ->value('status');
+    }
+
+    /**
+     * Combine all users post with his friends post (allowed audience)
+     *
+     * @return mixed
+     */
+    public function timeline()
+    {
+        $audience = ['public'];
+        if(auth()->user()->id == $this->id){
+            array_push($audience, 'friends');
+        }
+        $friends = $this->friends->pluck('id');
+
+        $accessible = DB::table('access')
+            ->whereIn('user_id', $friends)
+            ->whereIn('accessible_for', $audience)
+            ->where('accessible_type', Str::studly(Post::class))
+            ->pluck('accessible_id');
+
+        return Post::whereIn('id', $accessible)
+            ->orWhere('author_id', $this->id)
+            ->latest()
+            ->with('author')
+            ->paginate(5);
     }
 }
