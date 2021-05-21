@@ -34,7 +34,11 @@ class PostController extends Controller
      */
     public function show($slug)
     {
-        $post = Post::where('slug', $slug)->with('author')->firstOrFail();
+        $post = Post
+            ::where('slug', $slug)
+            ->with('author')
+            ->with('comments')
+            ->firstOrFail();
         return  new PostResource($post);
     }
     /**

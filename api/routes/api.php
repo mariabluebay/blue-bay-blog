@@ -20,6 +20,8 @@ Route::group([
     Route::patch('/posts/{post}', 'PostController@update');
     Route::delete('/posts/{post}', 'PostController@delete');
 
+    Route::post('/posts/{post:slug}/comment', 'CommentController@store');
+
     Route::patch('/profiles','ProfileController@update');
     Route::get('/profiles/{user:username}', 'ProfileController@show');
 

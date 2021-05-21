@@ -181,4 +181,14 @@ class User extends Authenticatable implements JWTSubject
             ->with('author')
             ->paginate(5);
     }
+
+    /**
+     * Comments relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }

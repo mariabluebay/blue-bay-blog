@@ -74,4 +74,14 @@ class Post extends Model
         return $imageUrl;
     }
 
+    /**
+     * Comments relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
 }
