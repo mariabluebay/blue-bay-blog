@@ -42,6 +42,7 @@
         <footer  class="card-footer">
           <div id="comments" class="p-3">
             <h1>Comments</h1>
+            <CreateComment :slug="post.slug" />
           </div>
         </footer>
       </div>
@@ -50,7 +51,10 @@
 </template>
 
 <script>
+import CreateComment from "../../components/CreateComment";
+
 export default {
+  components: {CreateComment},
   async asyncData ({ $content, $axios, params }) {
     const { data } = await $axios.$get(`/posts/${ params.slug }`);
     return { post: data }
