@@ -23,7 +23,7 @@ import ProfileCard from "../../components/ProfileCard";
 import Post from "../../components/Post";
 
 export default {
-  components: {ProfileCard, FollowButton, Post },
+  components: { ProfileCard, FollowButton, Post },
 
   middleware({ store, redirect, params }) {
     if (store.state.authenticated) {
