@@ -180,7 +180,8 @@ export default {
 
       await this.$axios.$post('/posts', formData, this.headers)
         .then(() => {
-          path: '/'
+          this.$store.dispatch('timeline/updateTimeline')
+          this.$router.push({path: `/posts`});
         })
         .catch(err => console.log(err))
     }

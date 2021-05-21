@@ -176,6 +176,7 @@
         formData.append('_method', 'patch');
 
         this.$axios.post(`/posts/${this.post.id}`, formData,  this.headers ).then(() => {
+          this.$store.dispatch('timeline/updateTimeline')
           this.$router.push({path: `/posts/${this.post.slug}`});
         }).catch(err => console.log(err))
       }
