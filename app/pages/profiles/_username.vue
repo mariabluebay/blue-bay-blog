@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="tile is-ancestor">
-        <div class="tile is-parent is-6">
+        <div class="tile is-child is-6">
           <ProfileCard :account="account">
             <FollowButton :account="account"/>
           </ProfileCard>
@@ -13,6 +13,7 @@
                    class="tile is-child block">
             <Post :post="post" :author="post.author"/>
           </article>
+          <Pagination :links="this.timeline.links" :meta="this.timeline.meta"/>
         </div>
       </div>
     </div>
@@ -21,9 +22,15 @@
 import FollowButton from "../../components/FollowButton";
 import ProfileCard from "../../components/ProfileCard";
 import Post from "../../components/Post";
+import Pagination from "../../components/Pagination";
 
 export default {
-  components: { ProfileCard, FollowButton, Post },
+  components: {
+    ProfileCard,
+    FollowButton,
+    Post,
+    Pagination
+  },
 
   middleware({ store, redirect, params }) {
     if (store.state.authenticated) {

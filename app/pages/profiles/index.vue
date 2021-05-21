@@ -33,13 +33,15 @@ import PendingRequest from "../../components/PendingRequest";
 import ProfileCard from "../../components/ProfileCard";
 import FriendsList from "../../components/FriendsList";
 import Post from "../../components/Post";
+import Pagination from "../../components/Pagination";
 
 export default {
   components: {
     FriendsList,
     ProfileCard,
     PendingRequest,
-    Post
+    Post,
+    Pagination
   },
   middleware: ['auth'],
 
