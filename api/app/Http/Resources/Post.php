@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\Author as AuthorResource;
+use App\Http\Resources\Comment as CommentResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 
@@ -34,7 +35,8 @@ class Post extends JsonResource
             'updated_at' => $this->updated_at->diffForHumans(),
             'published_at' => $published_at,
             'author' => new AuthorResource($this->whenLoaded('author')),
-            'audience' => $this->audience
+            'audience' => $this->audience,
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
         ];
     }
 }
