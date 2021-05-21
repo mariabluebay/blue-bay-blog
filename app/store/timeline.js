@@ -16,6 +16,9 @@ export const mutations = {
 
 export const actions = {
   updateTimeline({ commit }, timeline) {
+    if(timeline === undefined){
+      timeline = this.$axios.get(`/profiles/${this.state.auth.user.username}/timeline`).then((res) => res);
+    }
     commit('UPDATE_TIMELINE', timeline);
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="tile is-ancestor">
+  <div class="tile is-child">
     <nav class="pagination" role="navigation" aria-label="pagination">
       <ul class="pagination-list">
         <li v-for="(key, value) in links">

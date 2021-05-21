@@ -35,12 +35,6 @@
     props: [
       'post',
       'author'
-    ],
-    methods: {
-      async deletePost(id) {
-        await this.$axios.delete(`/posts/${id}`)
-          .then(() => this.$router.push('/posts'));
-      }
-    }
+    ]
   }
 </script>

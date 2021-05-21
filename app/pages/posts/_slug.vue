@@ -58,7 +58,10 @@ export default {
   methods :{
     async deletePost (id) {
       await this.$axios.delete(`/posts/${ id }`)
-        .then(() =>  this.$router.push('/posts'));
+        .then(() => {
+          this.$store.dispatch('timeline/updateTimeline')
+          this.$router.push({path: `/posts`});
+        });
     }
   }
 }
