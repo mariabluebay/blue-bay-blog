@@ -12,16 +12,18 @@
           <h3 class="title is-4">Sent</h3>
         </FriendsList>
       </div>
-      <div class="tile is-parent is-6">
+      <div class="tile is-child is-6">
         <ProfileCard :account="user"/>
       </div>
       <div class="tile is-parent is-4 is-vertical">
         <h3 class="title is-4">Latest posts</h3>
         <article v-for="(post, index) in posts"
                  :key="index"
-                 class="tile is-child block">
+                 class="tile is-child block"
+        >
           <Post :post="post" :author="post.author"/>
         </article>
+        <Pagination :links="this.timeline.links" :meta="this.timeline.meta"/>
       </div>
     </div>
   </div>
@@ -40,16 +42,15 @@ export default {
     Post
   },
   middleware: ['auth'],
-  data() {
-    return {
-      posts: []
-    }
-  },
+
   async asyncData( {store, $axios} ) {
-    let {data} = await $axios.$get(`/profiles/${store.state.auth.user.username}/timeline`)
-    return {
-      posts: data
-    }
+    let res = await $axios.$get(`/profiles/${store.state.auth.user.username}/timeline`)
+    return store.dispatch('timeline/updateTimeline', res);
   },
+  computed: {
+    posts() {
+      return this.timeline.data
+    }
+  }
 }
 </script>

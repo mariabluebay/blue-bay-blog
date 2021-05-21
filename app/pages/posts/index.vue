@@ -13,7 +13,8 @@
       <article v-for="(post, index) in posts"
                v-if="index > 0"
                :key="index"
-               class="tile is-child block">
+               class="tile is-child block"
+      >
         <Post :post="post" :author="post.author"/>
       </article>
     </div>
