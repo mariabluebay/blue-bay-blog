@@ -9,7 +9,12 @@
                      class="card-footer-item">
             Edit
           </nuxt-link>
-          <a @click="deletePost(post.id)" class="card-footer-item">Delete</a>
+          <a
+            @click="deletePost(post.id)"
+            class="card-footer-item"
+          >
+            Delete
+          </a>
         </header>
         <div class="card-image">
           <figure v-if="post.featured"
@@ -43,6 +48,8 @@
           <div id="comments" class="p-3">
             <h1>Comments</h1>
             <CreateComment :slug="post.slug" />
+            <CommentsList :comments="post.comments" />
+
           </div>
         </footer>
       </div>
@@ -52,9 +59,13 @@
 
 <script>
 import CreateComment from "../../components/CreateComment";
+import CommentsList from "../../components/CommentsList";
 
 export default {
-  components: {CreateComment},
+  components: {
+    CommentsList,
+    CreateComment
+  },
   async asyncData ({ $content, $axios, params }) {
     const { data } = await $axios.$get(`/posts/${ params.slug }`);
     return { post: data }
