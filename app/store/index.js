@@ -14,6 +14,9 @@ export const mutations = {
   },
   UPDATE_FOLLOWS( state, friends ) {
     state.auth.user.follows = friends;
+  },
+  UPDATE_PROFILE(state, profile) {
+    state.auth.user = profile;
   }
 }
 
@@ -26,4 +29,8 @@ export const actions = {
       commit('UPDATE_FOLLOWS', response.data.data.follows);
     })
   },
+
+  updateProfile( { commit }, profile){
+    commit('UPDATE_PROFILE', profile.data);
+  }
 }

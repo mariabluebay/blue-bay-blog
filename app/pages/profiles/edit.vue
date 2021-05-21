@@ -266,8 +266,9 @@ export default {
       formData.append('_method', 'patch');
 
       this.$axios.post(`/profiles`, formData,  this.headers )
-        .then(() => {
-          this.$router.push({path: `/profiles/${this.post.username}`});
+        .then((res) => {
+          this.$store.dispatch('updateProfile', res.data);
+          this.$router.push({path: `/profiles`});
         })
         .catch(err => console.log(err))
     }
